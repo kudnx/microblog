@@ -21,5 +21,9 @@
         <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
         <p>{{ form.submit() }}</p>
         <p>Faça uma nova conta<a href="{{ url_for('register') }}">Cadastre-se</a></p>
+        <p>
+        Esqueci a senha
+        <a href="{{ url_for('reset_password_request') }}">Clique para resetar a sua senha</a>
+    </p>
     </form>
 {% endblock %}
