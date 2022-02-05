@@ -21,6 +21,7 @@ class User(UserMixin, db.Model):
     about_me = db.Column(db.String(140))
     last_seen = db.Column(db.DateTime, default=datetime.utcnow)
     posts = db.relationship('Post', backref='author', lazy='dynamic')
+    language = db.Column(db.String(5))
 
     def __repr__(self):
         return '<Usuário {}>'.format(self.username)

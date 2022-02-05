@@ -7,6 +7,9 @@ from app.models import User, Post
 from flask_login import logout_user, login_required
 from werkzeug.urls import url_parse
 from datetime import datetime
+from langdetect import detect, LangDetectException
+from flask import jsonify
+from app.translate import translate
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -15,6 +18,12 @@ from datetime import datetime
 def index():
     form = PostForm()
     if form.validate_on_submit():
+        try:
+            language = detect(form.post.data)
+        except LangDetectException:
+            language = ''
+        post = Post(body=form.post.data, author=current_user,
+                    language=language)
         post = Post(body=form.post.data, author=current_user)
         db.session.add(post)
         db.session.commit()
@@ -30,6 +39,14 @@ def index():
     return render_template('index.html', title='Página Inicial', form=form,
                            posts=posts.items, next_url=next_url,
                            prev_url=prev_url)
+
+
+@app.route('/translate', methods=['POST'])
+@login_required
+def translate_text():
+    return jsonify({'text': translate(request.form['text'],
+                                      request.form['source_language'],
+                                      request.form['dest_language'])})
 
 
 @app.route('/login', methods=['GET', 'POST'])
