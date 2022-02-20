@@ -7,7 +7,7 @@ from flask import current_app
 def translate(text, source_language, dest_language):
     if 'MS_TRANSLATOR_KEY' not in current_app.config or \
             not current_app.config['MS_TRANSLATOR_KEY']:
-        return _('Erro: A tradução não está configurada.')
+        return 'Erro: A tradução não está configurada.'
     auth = {
         'Ocp-Apim-Subscription-Key': current_app.config['MS_TRANSLATOR_KEY'],
         'Ocp-Apim-Subscription-Region': 'westus2'}
@@ -16,5 +16,5 @@ def translate(text, source_language, dest_language):
         '/translate?api-version=3.0&from={}&to={}'.format(
             source_language, dest_language), headers=auth, json=[{'Text': text}])
     if r.status_code != 200:
-        return _('Erro: a tradução falhou.')
+        return 'Erro: a tradução falhou.'
     return r.json()[0]['translations'][0]['text']
