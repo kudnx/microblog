@@ -22,5 +22,6 @@ class Config(object):
         'postgres://', 'postgresql://') or \
                               'sqlite:///' + os.path.join(basedir, 'app.db')
     LOG_TO_STDOUT = os.environ.get('LOG_TO_STDOUT')
+    REDIS_URL = os.environ.get('REDIS_URL') or 'redis://'
 
     POSTS_PER_PAGE = 30

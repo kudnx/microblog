@@ -211,3 +211,14 @@ def notifications():
         'data': n.get_data(),
         'timestamp': n.timestamp
     } for n in notifications])
+
+
+@bp.route('/export_posts')
+@login_required
+def export_posts():
+    if current_user.get_task_in_progress('export_posts'):
+        flash('Exportação de tarefas em progresso')
+    else:
+        current_user.launch_task('export_posts', 'Exportando posts...')
+        db.session.commit()
+    return redirect(url_for('main.user', username=current_user.username))

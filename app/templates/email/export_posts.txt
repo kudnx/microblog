@@ -1,0 +1,7 @@
+Olá {{ user.username }},
+
+Os seus posts foram exportados com sucesso e se encontram em anexo.
+
+Agradecimentos,
+
+Time Microblog.
